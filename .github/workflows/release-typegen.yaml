@@ -7,15 +7,15 @@ on:
 
 jobs:
   release:
+    name: typegen release
     runs-on: ubuntu-latest
     steps:
+      - name: Check out code
+        uses: actions/checkout@v3
       - name: Set up Go 1.19
         uses: actions/setup-go@v3
         with:
           go-version: 1.19
-        id: go
-      - name: Check out code
-        uses: actions/checkout@v3
       - name: Build, Test, Lint
         run: |
           cd ts/typegen
