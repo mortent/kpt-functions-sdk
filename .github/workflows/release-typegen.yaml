@@ -7,15 +7,16 @@ on:
 
 jobs:
   release:
+    name: typegen release
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go 1.19
         uses: actions/setup-go@v3
         with:
           go-version: 1.19
-        id: go
       - name: Check out code
         uses: actions/checkout@v3
+        id: checkout
       - name: Build, Test, Lint
         run: |
           cd ts/typegen
@@ -28,5 +29,6 @@ jobs:
           # We should migrate it to google-github-actions/auth at some time.
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
+        needs: checkout
       - name: Upload binaries
         run: ./ts/scripts/publish-bins.sh $GITHUB_REF
